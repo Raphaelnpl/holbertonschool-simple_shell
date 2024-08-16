@@ -75,7 +75,7 @@
 
 ## LIENS 🔗 :
 
-- 1: https://github.com/Raphaelnpl/holbertonschool-simple_shell.git
+- 1: https://github.com/Raphaelnpl/holbertonschool-simple_shell
 - 2: Le Makefile fourni contient les règles nécessaires pour compiler le programme. Pour obtenir une explication détaillée sur son contenu et son fonctionnement, veuillez consulter le fichier `Makefile`.
 
 Pour compiler le programme, exécutez la commande suivante dans le terminal :
