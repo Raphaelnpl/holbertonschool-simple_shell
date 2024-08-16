@@ -85,7 +85,7 @@ Pour compiler le programme, exécutez la commande suivante dans le terminal :
 **FINIT :v: !  le shell est désormais prêt a l'utulisation pense a bien relir et bien vérifier que tu as bien suivis les étapes.**
 
 ## AUTHORS 👨‍🦲👨‍🦲 :
-**Taqiyeddine Boudiaf**
+**Oussama Ferhat**
 - Github: [@Oussamafrt](https://github.com/oussamafrt)
 
 **Raphael Melnique**
