@@ -1,0 +1,74 @@
+.TH SIMPLE_SHELL 1 "August 2024" "1.0" "Simple Shell Manual"
+.SH NAME
+simple_shell \- A simple UNIX command line interpreter
+
+.SH SYNOPSIS
+.B simple_shell
+.RI [COMMAND]
+
+.SH DESCRIPTION
+.B simple_shell
+is a simple UNIX command line interpreter that reads commands from standard input and executes them.
+
+.SH COMMANDS
+The following commands are built into the shell:
+
+.TP
+.B exit
+Exit the shell.
+
+.TP
+.B env
+Print the current environment.
+
+.TP
+.B any other valid UNIX command
+The shell executes any valid UNIX command by searching for it in the directories specified by the `PATH` environment variable.
+
+.SH USAGE
+.P
+When run interactively, the shell displays a prompt and waits for the user to input a command. After executing the command, the shell displays the prompt again and waits for the next command.
+.P
+If the shell is run in non-interactive mode, it reads commands from a file or standard input and executes them without displaying a prompt.
+
+.SH EXAMPLES
+.P
+Interactive mode:
+.EX
+$ ./simple_shell
+($) /bin/ls
+file1 file2 file3
+($) exit
+$
+.EE
+.P
+Non-interactive mode:
+.EX
+$ echo "/bin/ls" | ./simple_shell
+file1 file2 file3
+$
+.EE
+
+.SH FILES
+.TP
+.I simple_shell
+The shell executable.
+
+.SH ENVIRONMENT
+.B simple_shell
+utilizes the following environment variables:
+
+.TP
+.B PATH
+A list of directories in which to search for executable commands.
+
+.SH RETURN VALUES
+The shell returns the exit status of the last executed command. If a command is not found, the shell returns an error.
+
+.SH SEE ALSO
+.BR sh (1),
+.BR execve (2),
+.BR fork (2)
+
+.SH AUTHORS
+Written by Oussama and Raphael.
