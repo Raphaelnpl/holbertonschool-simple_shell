@@ -23,7 +23,8 @@ int main(int argc, char **argv)
 		nread = getline(&line, &len, stdin);
 		if (nread == -1)
 		{
-			free(line);
+			if (line)
+				free(line);
 			break;
 		}
 
@@ -35,7 +36,6 @@ int main(int argc, char **argv)
 			args[i] = strtok(NULL, " \n");
 		}
 		args[i] = NULL;
-
 		if (args[0] == NULL)
 		{
 			continue;
