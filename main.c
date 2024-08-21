@@ -1,76 +1,52 @@
-#include "shell.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-
-#define BUFFER_SIZE 1024
-
+#include "main.h"
 /**
- * main - Entry point of the shell program
+ * main - Entry point
+ * @argc: Argument count
+ * @argv: Argument vector
  *
- * Return: Always 0 (success), or exit status if an error occurs
+ * Return: 0 on success, other values on failure
  */
-int main(void)
+int main(int argc, char **argv)
 {
-	char *buffer = NULL;
-	size_t bufsize = 0;
-	ssize_t getline_status;
-	char *args[BUFFER_SIZE];
-	int status;
-	pid_t pid;
+	char *line = NULL;
+	size_t len = 0;
+	ssize_t nread;
+	char *args[64];
+	int i;
+
+	(void)argc;
+	(void)argv;
 
 	while (1)
 	{
 		printf("($) ");
-		getline_status = getline(&buffer, &bufsize, stdin);
-
-		if (getline_status == -1)
+		nread = getline(&line, &len, stdin);
+		if (nread == -1)
 		{
-			free(buffer);
-			exit(EXIT_SUCCESS);
+			free(line);
+			break;
 		}
 
-		buffer[strcspn(buffer, "\n")] = '\0';
-
-		if (strcmp(buffer, "exit") == 0)
+		i = 0;
+		args[i] = strtok(line, " \n");
+		while (args[i] != NULL && i < 63)
 		{
-			free(buffer);
-			exit(EXIT_SUCCESS);
+			i++;
+			args[i] = strtok(NULL, " \n");
 		}
+		args[i] = NULL;
 
-		if (strcmp(buffer, "env") == 0)
+		if (args[0] == NULL)
 		{
-			print_env();
 			continue;
 		}
-
-		pid = fork();
-
-		if (pid == -1)
+		if (strcmp(args[0], "env") == 0)
 		{
-			perror("fork");
-			free(buffer);
-			exit(EXIT_FAILURE);
+			print_env(environ);
+			continue;
 		}
-		else if (pid == 0)
-		{
-			tokenize(buffer, args);
-
-			if (execve(args[0], args, environ) == -1)
-			{
-				perror("./hsh");
-			}
-			exit(EXIT_FAILURE);
-		}
-		else
-		{
-			wait(&status);
-		}
+		execute(args);
 	}
-
-	free(buffer);
 	return (0);
 }
+
