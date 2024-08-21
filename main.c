@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 
 		i = 0;
 		args[i] = strtok(line, " \n");
-		while (args[i] != NULL && i < 63)
+		while (args[i] != NULL && i < MAX_ARGS - 1)
 		{
 			i++;
 			args[i] = strtok(NULL, " \n");
