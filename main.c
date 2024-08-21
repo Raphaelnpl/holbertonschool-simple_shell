@@ -22,12 +22,7 @@ int main(int argc, char **argv)
 		printf("($) ");
 		nread = getline(&line, &len, stdin);
 		if (nread == -1)
-		{
-			if (line)
-				free(line);
 			break;
-		}
-
 		i = 0;
 		args[i] = strtok(line, " \n");
 		while (args[i] != NULL && i < MAX_ARGS - 1)
@@ -47,5 +42,6 @@ int main(int argc, char **argv)
 		}
 		execute(args);
 	}
+	free(line);
 	return (0);
 }
