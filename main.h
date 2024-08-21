@@ -1,6 +1,5 @@
 #ifndef MAIN_H
 #define MAIN_H
-#define MAX_ARGS 100
 
 #include <stdio.h>
 #include <stdlib.h>

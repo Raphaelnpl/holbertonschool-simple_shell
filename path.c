@@ -43,4 +43,3 @@ int is_path(char *command)
 
 	return (0);
 }
-
