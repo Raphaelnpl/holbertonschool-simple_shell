@@ -7,6 +7,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdarg.h>
+#include <signal.h>
 #include <sys/wait.h>
 #include <sys/types.h>
 
@@ -16,5 +17,6 @@ int is_path(char *command);
 char *_getenv(const char *name);
 void print_env(char **environ);
 void execute(char **args);
+void handle_sigint(int sig);
 
 #endif
