@@ -12,13 +12,14 @@ int main(void)
 	int should_run = 1, i;
 
 	signal(SIGINT, handle_sigint);
-
 	while (should_run)
 	{
 		if (isatty(STDIN_FILENO))
+		{
 			printf("\033[32m@%s\033[0m ➜ \033[36m%s\033[0m $ ",
-					_getenv("USER"), _getenv("PWD")), fflush(stdout);
-
+					_getenv("USER"), _getenv("PWD"));
+			fflush(stdout);
+		}
 		bytes_read = getline(&command, &command_size, stdin);
 		if (bytes_read == -1)
 			break;
@@ -35,9 +36,11 @@ int main(void)
 			print_env(environ);
 			continue;
 		}
-		for (i = 0, token = strtok(command, " ");
-			token != NULL && i < MAX_ARGS - 1; i++)
-			args[i] = token, token = strtok(NULL, " ");
+		for (i = 0, token = strtok(command, " "); token != NULL && i < MAX_ARGS - 1;
+			i++, token = strtok(NULL, " "))
+		{
+			args[i] = token;
+		}
 		args[i] = NULL;
 		execute(args);
 	}
