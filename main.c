@@ -26,7 +26,6 @@ int main(int argc, char **argv)
 			free(line);
 			break;
 		}
-
 		i = 0;
 		args[i] = strtok(line, " \n");
 		while (args[i] != NULL && i < MAX_ARGS - 1)
@@ -47,5 +46,6 @@ int main(int argc, char **argv)
 		}
 		execute(args);
 	}
+	free(line);
 	return (0);
 }
