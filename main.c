@@ -1,51 +1,46 @@
 #include "main.h"
 /**
  * main - Entry point
- * @argc: Argument count
- * @argv: Argument vector
  *
  * Return: 0 on success, other values on failure
  */
-int main(int argc, char **argv)
+int main(void)
 {
-	char *line = NULL;
-	size_t len = 0;
-	ssize_t nread;
-	char *args[64];
-	int i;
+	char *command = NULL, *args[MAX_ARGS], *token;
+	size_t command_size = 0;
+	ssize_t bytes_read;
+	int should_run = 1, i;
 
-	(void)argc;
-	(void)argv;
+	signal(SIGINT, handle_sigint);
 
-	while (1)
+	while (should_run)
 	{
-		printf("($) ");
-		nread = getline(&line, &len, stdin);
-		if (nread == -1)
-		{
-			free(line);
-			break;
-		}
-		i = 0;
-		args[i] = strtok(line, " \n");
-		while (args[i] != NULL && i < MAX_ARGS - 1)
-		{
-			i++;
-			args[i] = strtok(NULL, " \n");
-		}
-		args[i] = NULL;
+		if (isatty(STDIN_FILENO))
+			printf("\033[32m@%s\033[0m ➜ \033[36m%s\033[0m $ ",
+					_getenv("USER"), _getenv("PWD")), fflush(stdout);
 
-		if (args[0] == NULL)
+		bytes_read = getline(&command, &command_size, stdin);
+		if (bytes_read == -1)
+			break;
+		if (command[0] == '\n' || command[0] == '\0')
+			continue;
+		command[strlen(command) - 1] = '\0';
+		if (strcmp(command, "exit") == 0)
 		{
+			should_run = 0;
 			continue;
 		}
-		if (strcmp(args[0], "env") == 0)
+		if (strcmp(command, "env") == 0)
 		{
 			print_env(environ);
 			continue;
 		}
+		for (i = 0, token = strtok(command, " ");
+			token != NULL && i < MAX_ARGS - 1; i++)
+			args[i] = token, token = strtok(NULL, " ");
+		args[i] = NULL;
 		execute(args);
 	}
-	free(line);
+	free(command);
 	return (0);
 }
